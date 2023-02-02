@@ -59,3 +59,6 @@ public class AspectV6Advice {
         log.info("[after] {}", joinPoint.getSignature());
     }
 }
+
+// @Around 로 모든 기능을 수행할수도 있지만
+// 보다 명확하게 목적에 의해 나누어 여러 어드바이스가 존재한다.
