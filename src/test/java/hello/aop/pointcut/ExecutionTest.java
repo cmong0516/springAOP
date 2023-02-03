@@ -39,6 +39,8 @@ public class ExecutionTest {
         Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
     }
 
+    // 메서드 이름 매칭 관련 포인트컷
+
     @Test
     void nameMatch() {
         pointcut.setExpression("execution(* hello(..))");
@@ -62,4 +64,39 @@ public class ExecutionTest {
         pointcut.setExpression("execution(* nono(..))");
         Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isFalse();
     }
+
+    // 패키지 매칭 관련 포인트컷
+
+    @Test
+    void packageExactMatch1() {
+        pointcut.setExpression("execution(* hello.aop.member.MemberServiceImpl.hello(..))");
+        Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    void packageExactMatch2() {
+        pointcut.setExpression("execution(* hello.aop.member.*.*(..))");
+        Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    void packageExactMatchFalse() {
+        pointcut.setExpression("execution(* hello.aop.*.*(..))");
+        Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isFalse();
+    }
+
+    @Test
+    void packageMatchSubPackage1() {
+        pointcut.setExpression("execution(* hello.aop.member..*.*(..))");
+        Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    void packageMatchSubPackage2() {
+        pointcut.setExpression("execution(* hello.aop..*.*(..))");
+        Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    // . 은 정확하게 해당 패키지에 위치
+    // .. 은 해당 위치의 패키지와 그 하위 패키지 포함
 }
