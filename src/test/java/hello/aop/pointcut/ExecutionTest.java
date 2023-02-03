@@ -99,4 +99,18 @@ public class ExecutionTest {
 
     // . 은 정확하게 해당 패키지에 위치
     // .. 은 해당 위치의 패키지와 그 하위 패키지 포함d
+
+    // 타입 매칭
+    @Test
+    void typeExactMatch() {
+        pointcut.setExpression("execution(* hello.aop.member.MemberServiceImpl.*(..))");
+        Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    void typeMatchSuperType() {
+        pointcut.setExpression("execution(* hello.aop.member.MemberService.*(..))");
+        Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
 }
