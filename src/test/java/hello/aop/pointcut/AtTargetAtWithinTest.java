@@ -58,13 +58,16 @@ public class AtTargetAtWithinTest {
 
     @Slf4j
     @Aspect
+    // 어드바이저로 등록한다.
     static class AtTargetAtWithinAspect {
+        // 포인트컷
+        // @target -> 인스턴스 기준으로 모든 메서드의 조인포인트를 선정 , 부모 타입 허용.
         @Around("execution(* hello.aop..*(..)) && @target(hello.aop.member.annotation.ClassAop)")
         public Object atTarget(ProceedingJoinPoint joinPoint) throws Throwable {
             log.info("[@Target] {}", joinPoint.getSignature());
             return joinPoint.proceed();
         }
-
+        // @within -> 선택된 클래스 내부에 있는 메서드만 조인 포인트로 선정 , 부모 타입 허용 x.
         @Around("execution(* hello.aop..*(..)) && @within(hello.aop.member.annotation.ClassAop)")
         public Object atWithin(ProceedingJoinPoint joinPoint) throws Throwable {
             log.info("[@within] {}", joinPoint.getSignature());

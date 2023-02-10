@@ -55,5 +55,7 @@ public class ArgsTest {
                 .isFalse();
 
         // args 는 성공 , execution 은 실패
+        // execution 은 파라미터 타입이 정확하게 매칭되어야한다.
+        // args 는 부모타입을 허용한다.
     }
 }
